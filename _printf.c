@@ -1,50 +1,74 @@
 #include "main.h"
 
+void print_buffer(char buffer[], int *buff_ind);
+
 /**
-  *_printf - write output to the standard output stream
-  *@format: a character string
-  *Return: the characters printed
-  */
+ * _printf - This is the printf function
+ * @format: The format
+ * Return: Return printed characters
+ */
 
 int _printf(const char *format, ...)
 {
-	int num = 0;
-	va_list args;
+	int i, printed = 0, printed_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
+	va_list list;
+	char buffer[BUFF_SIZE];
 
-	va_start(args, format);
+	if (format == NULL)
+		return (-1);
 
-	while (*format != '\0')
+	va_start(list, format);
+
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (*format == '%')
+		if (format[i] != '%')
 		{
-			format++;
-			switch (*format)
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
 			{
-				case 'c':
-					num += print_char(args);
-					break;
-				case 's':
-					num += print_string(args);
-					break;
-				case '%':
-					 _putchar('%');
-					 num++;
-					break;
-				default:
-					_putchar('%');
-					_putchar(*format);
-					num += 2;
-					break;
+				print_buffer(buffer, &buff_ind);
 			}
+			printed_chars++;
 		}
 		else
 		{
-			_putchar(*format);
-			num++;
+			print_buffer(buffer, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
+			size = get_size(format, &i);
+			i++;
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
+			if (printed == -1)
+			{
+				va_end(list);
+				return (-1);
+			}
+			printed_chars += printed;
 		}
-		format++;
 	}
-	va_end(args);
-	return (num);
+
+	print_buffer(buffer, &buff_ind);
+
+	va_end(list);
+
+	return (printed_chars);
 }
 
+/**
+ * print_buffer - This prints buffer content if they exist
+ * @buffer: Chars arrays
+ * @buff_ind: This represents the index at where the next char is added
+ */
+
+void print_buffer(char buffer[], int *buff_ind)
+{
+	if (*buff_ind > 0)
+	{
+		write(1, buffer, *buff_ind);
+	}
+
+	*buff_ind = 0;
+}
