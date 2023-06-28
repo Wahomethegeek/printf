@@ -1,74 +1,42 @@
 #include "main.h"
-
-void print_buffer(char buffer[], int *buff_ind);
-
 /**
- * _printf - This is the printf function
- * @format: The format
- * Return: Return printed characters
+ * _printf - This prints strings to the stdout
+ * @format: This prints a specific char
+ * Return: Returns the printed characters
  */
-
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, printed_chars = 0;
-	int flags, width, precision, size, buff_ind = 0;
-	va_list list;
-	char buffer[BUFF_SIZE];
+	va_list args;
+	int sum = 0;
+	int i = 0;
 
 	if (format == NULL)
 		return (-1);
 
-	va_start(list, format);
+	va_start(args, format);
 
-	for (i = 0; format[i] != '\0'; i++)
+	while (format[i] != '\0')
 	{
 		if (format[i] != '%')
 		{
-			buffer[buff_ind++] = format[i];
-			if (buff_ind == BUFF_SIZE)
-			{
-				print_buffer(buffer, &buff_ind);
-			}
-			printed_chars++;
+			sum += _putchar(formart[i]);
 		}
 		else
 		{
-			print_buffer(buffer, &buff_ind);
-			flags = get_flags(format, &i);
-			width = get_width(format, &i, list);
-			precision = get_precision(format, &i, list);
-			size = get_size(format, &i);
 			i++;
-			printed = handle_print(format, &i, list, buffer,
-				flags, width, precision, size);
-			if (printed == -1)
+			if (formart[i] == '\0')
 			{
-				va_end(list);
+				va_end(args);
 				return (-1);
 			}
-			printed_chars += printed;
+
+			sum = handle_format(format[i], args, &sum);
 		}
+
+		i++;
 	}
 
-	print_buffer(buffer, &buff_ind);
+	va_end(args);
 
-	va_end(list);
-
-	return (printed_chars);
-}
-
-/**
- * print_buffer - This prints buffer content if they exist
- * @buffer: Chars arrays
- * @buff_ind: This represents the index at where the next char is added
- */
-
-void print_buffer(char buffer[], int *buff_ind)
-{
-	if (*buff_ind > 0)
-	{
-		write(1, buffer, *buff_ind);
-	}
-
-	*buff_ind = 0;
+	return (sum);
 }
