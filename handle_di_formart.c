@@ -6,7 +6,7 @@
 /**
  * handle_integers - Handling 'd' and 'i' format specifiers
  * @args: The va_list arguments.
- * @count: Pointer to the sum of characters printed.
+ * @sum: Pointer to the sum of characters printed.
  *
  * Return: The updated sum of characters printed.
  */
