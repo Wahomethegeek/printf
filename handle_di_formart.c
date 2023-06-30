@@ -12,23 +12,23 @@
  */
 int handle_integers(va_list args, int *sum)
 {
-        int len;
-        char *buffer;
+	int len;
+	char *buffer;
+	va_list args_clone;
 
-        va_list args_clone;
-        va_copy(args_clone, args);
-        len = vsnprintf(NULL, 0, "%d", args_clone);
-        va_end(args_clone);
+	va_copy(args_clone, args);
+	len = vsnprintf(NULL, 0, "%d", args_clone);
+	va_end(args_clone);
 
-        buffer = malloc(len + 1);
-        if (buffer == NULL)
-                return -1;
+	buffer = malloc(len + 1);
+	if (buffer == NULL)
+		return (-1);
 
-        vsprintf(buffer, "%d", args);
+	vsprintf(buffer, "%d", args);
 
-        *sum += _puts(buffer);
-        free(buffer);
+	*sum += _puts(buffer);
+	free(buffer);
 
-        return (*sum);
+	return (*sum);
 }
 
