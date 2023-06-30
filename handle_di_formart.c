@@ -10,7 +10,7 @@
  *
  * Return: The updated sum of characters printed.
  */
-int handle_integers(va_list args, int *count)
+int handle_integers(va_list args, int *sum)
 {
         int len;
         char *buffer;
@@ -26,7 +26,7 @@ int handle_integers(va_list args, int *count)
 
         vsprintf(buffer, "%d", args);
 
-        *count += _puts(buffer);
+        *sum += _puts(buffer);
         free(buffer);
 
         return (*sum);
