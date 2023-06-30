@@ -32,11 +32,7 @@ int handle_format(char format, va_list args, int *sum)
 		*sum += _putchar('%');
 	else if (format == 'd' || format == 'i')
 	{
-		int num = va_arg(args, int);
-		char buffer[BUFFER_SIZE];
-		int length = snprintf(buffer, BUFFER_SIZE, "%d", num);
-
-		sum += (_puts(&buffer[BUFFER_SIZE - length]) + length);
+		*sum += handle_integers(args, sum);
 	}
 	else
 		*sum += (_putchar('%') + _putchar(format));
