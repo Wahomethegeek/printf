@@ -16,7 +16,7 @@ int handle_integers(va_list args, int *sum)
 	char *buffer;
 	va_list args_clone;
 
-	va_copy(args_clone, args);
+	va_clone(args_clone, args);
 	len = vsnprintf(NULL, 0, "%d", args_clone);
 	va_end(args_clone);
 
