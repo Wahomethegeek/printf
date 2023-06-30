@@ -19,12 +19,12 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] != '%')
 		{
-			sum += _putchar(formart[i]);
+			sum += _putchar(format[i]);
 		}
 		else
 		{
 			i++;
-			if (formart[i] == '\0')
+			if (format[i] == '\0')
 			{
 				va_end(args);
 				return (-1);
