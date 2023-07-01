@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #define BUFFER_SIZE 1024
 
 int _printf(const char *format, ...);
